@@ -1,0 +1,6 @@
+pytest
+pycodestyle
+pytest-pylint
+pandas
+numpy
+python-docx

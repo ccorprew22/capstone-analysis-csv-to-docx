@@ -2,11 +2,6 @@
 Takes the desired columns from formsite csv file,
 and puts pre-determined info into docx file where the students are separated by teams
 with bullet lists of the PM, members, added up scores, and comments.
-
-INSTALL:
-pip install pandas
-pip install python-docx
-pip install numpy
 """
 import pandas as pd
 import numpy as np
@@ -89,7 +84,7 @@ for i in num_rows: #makes hashmaps of each row, then populates the report data h
         else:
             name = row["Team member name.{}".format(str(j-1))]
             comment = row["Comments / Suggestions.{}".format(str(j-1))]
-        
+
         if j != 2:
             overall = row["Team Member#{} Overall".format(str(j))]
             pro = row["Team Member#{} Professionalism".format(str(j))]
@@ -118,7 +113,7 @@ for i in num_rows: #makes hashmaps of each row, then populates the report data h
                             "Ability to Learn": learn,
                            }
                    }
-        
+
         tm_list.append(tm_dict)
     row_dict = {
         "Row #" : i,
@@ -138,7 +133,8 @@ for row in report_dict:
     row_num = report_dict[row]
     r_data = row_num["Row Data"]
     #print(r_data)
-    p_title = "{} ({})".format(r_data["Project Title"], r_data["Project Type"]) #Makes project title bold
+    #Makes project title bold
+    p_title = "{} ({})".format(r_data["Project Title"], r_data["Project Type"])
     p_pm_name = "PM: {}".format(r_data["PM Name"])
     p_tm_title = "Team Members:"
 
@@ -156,7 +152,7 @@ for row in report_dict:
     p_tm_title.paragraph_format.space_before = Pt(3)
     p_tm_title.paragraph_format.space_after = Pt(3)
 
-    for n in r_data["Team Members"]: 
+    for n in r_data["Team Members"]:
         tm_name = "{}".format(n["Team Member Name"])
         score = 0
         #print(type(n["data"]["Overall"]))
@@ -190,12 +186,5 @@ for row in report_dict:
     comments.paragraph_format.space_before = Pt(3)
     comments.paragraph_format.space_after = Pt(3)
     space = document.add_paragraph("\n")
-        
 
 document.save("progress_report_#{}.docx".format(str(num)))
-
-
-
-
-
-
