@@ -2,6 +2,12 @@
 Takes the desired columns from formsite csv file,
 and puts pre-determined info into docx file where the students are separated by teams
 with bullet lists of the PM, members, added up scores, and comments.
+
+Some names will need to be manually added after making the doc. Most of the time
+the PM will put the name in the team member comment section.
+
+Also some scores will also need to be manually add due to "?" being found
+occasionally where numbers are supposed to be.
 """
 import pandas as pd
 import numpy as np
@@ -9,35 +15,37 @@ from docx import Document
 from docx.shared import Pt
 
 document = Document()
-reports = pd.read_csv("progress_report_form_2.csv")
+
+reports = pd.read_csv("progress_report_form_2.csv") #Change to valid file name
 report_dict = {}
 num = int(input("Enter progress report num: "))
 reports = reports.loc[reports['Progress Report #'] == num]
-reports.to_csv("progress_report_#{}.csv".format(str(num)),index=False)
+reports.to_csv("progress_report_output/progress_report_#{}.csv".format(str(num)),index=False)
 print(reports["PM Name"])
 
-##{
-##    Row # : num,
-##    Row Data: {
-##        Project Type: Project Type,
-##        Project Title : Project Title,
-##        PM Name : Name,
-##        Team Members : [Team Member Name: Team member name,
-##             data: {
-##                Overall: Score,
-##                Professionalism: Score,
-##                Technical: Score,
-##                Communication: Score
-##                Promptness: Score,
-##                Ability to Get Along: Score,
-##                Ability to Learn: Score
-##            },
-##            ...
-##            ]
-##       Comments : comment
-##    }
-##}
-
+""" Dictionary format
+{
+   Row # : num,
+   Row Data: {
+       Project Type: Project Type,
+       Project Title : Project Title,
+       PM Name : Name,
+       Team Members : [Team Member Name: Team member name,
+            data: {
+               Overall: Score,
+               Professionalism: Score,
+               Technical: Score,
+               Communication: Score
+               Promptness: Score,
+               Ability to Get Along: Score,
+               Ability to Learn: Score
+           },
+           ...
+           ]
+      Comments : comment
+   }
+}
+"""
 reports_cols = list(reports.columns)
 
 project_type = [reports_cols[3]]
@@ -51,17 +59,31 @@ comments_col = ["Any obstacles or problems facing your project?"]
 team_member_evals = tm_1_evals+tm_2_evals+tm_3_evals+tm_4_evals+tm_5_evals
 working_cols = project_type + pm_name + team_member_evals+comments_col #takes desired columns
 
-
 num_rows = reports.index.tolist()
 
 tm_reports = reports.loc[:, working_cols]
 print(tm_reports)
-drop_suffix = [" \(Item #31\)"," \(Item #34\)"," \(Item #38\)"," \(Item #41\)"," \(Item #44\)"]
-for suf in drop_suffix:
-    tm_reports.columns = tm_reports.columns.str.replace(suf, "")
 
+#drop_suffix = [" \(Item #31\)"," \(Item #34\)"," \(Item #38\)"," \(Item #41\)"," \(Item #44\)"]
+#print(drop_suffix)
+#for suf in drop_suffix:
+#    tm_reports.columns = tm_reports.columns.str.replace(suf, "")
 
-for i in num_rows: #makes hashmaps of each row, then populates the report data hashmap
+""" Change column names, previously used str.replace"""
+for col in tm_reports.columns:
+    index = col.find(" (Item")
+    #print(index)
+    if index == -1:
+        continue
+    v = col[:index]
+    tm_reports.rename(columns={col: v}, inplace=True)
+
+tm_reports.to_csv("progress_report_output/tm_reports.csv",index=False)
+
+""" Makes hashmaps of each row, then populates the report data hashmap.
+    May have to modify if Formsite format changes.
+ """
+for i in num_rows:
     row = tm_reports.loc[i]
     pm = row["PM Name"]
     row_dict = None
@@ -128,11 +150,12 @@ for i in num_rows: #makes hashmaps of each row, then populates the report data h
     report_dict["Row #{}".format(i)] = row_dict
 #print(report_dict)
 
-#Make docx version
+""" Puts information into docx file in desired format"""
 for row in report_dict:
     row_num = report_dict[row]
     r_data = row_num["Row Data"]
     #print(r_data)
+
     #Makes project title bold
     p_title = "{} ({})".format(r_data["Project Title"], r_data["Project Type"])
     p_pm_name = "PM: {}".format(r_data["PM Name"])
@@ -157,13 +180,16 @@ for row in report_dict:
         score = 0
         #print(type(n["data"]["Overall"]))
         try:
-            score += int(n["data"]["Overall"])
-            score += int(n["data"]["Professionalism"])
-            score += int(n["data"]["Technical"])
-            score += int(n["data"]["Communication"])
-            score += int(n["data"]["Promptness"])
-            score += int(n["data"]["Ability to Get Along"])
-            score += int(n["data"]["Ability to Learn"])
+            # score += int(n["data"]["Overall"])
+            # score += int(n["data"]["Professionalism"])
+            # score += int(n["data"]["Technical"])
+            # score += int(n["data"]["Communication"])
+            # score += int(n["data"]["Promptness"])
+            # score += int(n["data"]["Ability to Get Along"])
+            # score += int(n["data"]["Ability to Learn"])
+            data_list = list(n["data"].values())
+            data_list_int = [int(s) for s in data_list]
+            score += sum(data_list_int)
         except ValueError:
             score = np.nan
         tm_name = tm_name.rsplit('\t', 1)[0]
@@ -187,4 +213,4 @@ for row in report_dict:
     comments.paragraph_format.space_after = Pt(3)
     space = document.add_paragraph("\n")
 
-document.save("progress_report_#{}.docx".format(str(num)))
+document.save("progress_report_output/progress_report_#{}.docx".format(str(num)))
