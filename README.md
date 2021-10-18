@@ -1,5 +1,5 @@
 # Capstone Progress Report Analysis CSV to Docx
-This program takes the PM progress report in a CSV format and turns it into a docx file in a bullet point format with the team member scores and comments.
+This program takes the PM progress report in a CSV format and turns it into a docx file in a bullet point format with the team member scores and comments. Also makes a CSV file with the selected progress report number.
 
 + To get the CSV file, go on to the Formsite and export a CSV file.
 + To install dependencies, enter in the terminal `pip install -r requirements`.
