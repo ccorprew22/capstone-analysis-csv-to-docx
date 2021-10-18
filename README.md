@@ -1,7 +1,9 @@
 # Capstone Progress Report Analysis CSV to Docx
 [![Build Status](https://app.travis-ci.com/ccorprew22/capstone-analysis-csv-to-docx.svg?branch=main)](https://app.travis-ci.com/ccorprew22/capstone-analysis-csv-to-docx)
 
-This program takes the PM progress report in a CSV format and turns it into a docx file in a bullet point format with the team member scores and comments. Also makes a CSV file with the selected progress report number.
+This program takes the PM progress report in a CSV format and turns it into a docx file in a bullet point format with the team member scores and comments, sorted by executive team mentor. Also makes a CSV file with the selected progress report number. Look at sample to see an example. Scores/Names aren't real.
+
+This program currently works if it matches column headers and the Formsite template provided. However, the professor may make changes.
 
 ## Note!!!
 You will still have to go through the progress report file, this program is only to reduce the amount of typing, formatting, and busy work.
