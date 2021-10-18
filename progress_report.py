@@ -16,7 +16,7 @@ from docx.shared import Pt
 
 document = Document()
 
-reports = pd.read_csv("progress_report_form_2.csv") #Change to valid file name
+reports = pd.read_csv("progress_report_form_3.csv") #Change to valid file name
 report_dict = {}
 num = int(input("Enter progress report num: "))
 reports = reports.loc[reports['Progress Report #'] == num]
@@ -161,7 +161,7 @@ for row in report_dict:
     p_pm_name = "PM: {}".format(r_data["PM Name"])
     p_tm_title = "Team Members:"
 
-    p = document.add_paragraph(style='List Bullet')
+    p = document.add_paragraph()
     p.paragraph_format.space_before = Pt(3)
     p.paragraph_format.space_after = Pt(3)
     p_bold = p.add_run(p_title)
