@@ -14,7 +14,6 @@ You will still have to go through the progress report file, this program is only
 + To run, enter `python progress_report.py`.
 + The format of the column names may change, so you will need to adjust the code starting at `line 73` (for loop to change column titles)
 + Some names will need to be manually added after making the doc. Most of the time the PM will put the name in the team member comment section. Also you have to remove any extra empty spaces because I checked for five team members since there was a large amount of empty columns/unused columns.
-+ Also some scores will also need to be manually add due to "?" being found
-occasionally where numbers are supposed to be.
-+ You have to manually go through and
++ Also some scores will also need to be manually added due to "?" being found occasionally where numbers are supposed to be.
++ You have to manually go through and check the additional comments section.
 + If you make any changes, feel free to push to this repo.

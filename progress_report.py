@@ -15,6 +15,44 @@ from docx import Document
 from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
+def docx_print(d):
+    """
+        Function takes needed information for docx file from dictionary
+        and puts them in to a smaller dictionary separated by exectutive mentor name.
+    """
+    exec_d = {}
+    for r in d:
+        row_num = d[r]
+        r_data = row_num["Row Data"]
+
+        proj_title = "{} ({})".format(r_data["Project Title"], r_data["Project Type"])
+        pm_n = "PM: {}".format(r_data["PM Name"])
+        team = []
+
+        for t in r_data["Team Members"]:
+
+            t_name = t["Team Member Name"]
+            _score_ = 0
+            try:
+                data_list = list(t["data"].values())
+                data_list_int = [int(s) for s in data_list]
+                _score_ += sum(data_list_int)
+            except ValueError:
+                _score_ = np.nan
+            team.append({"name": str(t_name), "score": _score_})
+        text = r_data["Comments"]
+        if r_data["Executive"] in exec_d:
+            exec_d[r_data["Executive"]].append({"proj_title": proj_title,
+                "pm_n": pm_n,
+                "team" : team,
+                "comment": text})
+        else:
+            exec_d[r_data["Executive"]] = [{"proj_title": proj_title,
+            "pm_n": pm_n,
+            "team" : team,
+            "comment": text}]
+    return exec_d
+
 document = Document()
 
 reports = pd.read_csv("ProgressreportformCapstoneProg(3).csv") #Change to valid file name
@@ -163,43 +201,7 @@ for i in num_rows:
 
 #exec_list = list(tm_reports["Exectutive Team Mentor"].unique())
 
-def docx_print(d):
-    """
-        Function takes needed information for docx file from dictionary
-        and puts them in to a smaller dictionary separated by exectutive mentor name.
-    """
-    exec_d = {}
-    for r in d:
-        row_num = d[r]
-        r_data = row_num["Row Data"]
 
-        proj_title = "{} ({})".format(r_data["Project Title"], r_data["Project Type"])
-        pm_n = "PM: {}".format(r_data["PM Name"])
-        team = []
-
-        for t in r_data["Team Members"]:
-
-            t_name = t["Team Member Name"]
-            _score_ = 0
-            try:
-                data_list = list(t["data"].values())
-                data_list_int = [int(s) for s in data_list]
-                _score_ += sum(data_list_int)
-            except ValueError:
-                _score_ = np.nan
-            team.append({"name": str(t_name), "score": _score_})
-        text = r_data["Comments"]
-        if r_data["Executive"] in exec_d:
-            exec_d[r_data["Executive"]].append({"proj_title": proj_title,
-                "pm_n": pm_n,
-                "team" : team,
-                "comment": text})
-        else:
-            exec_d[r_data["Executive"]] = [{"proj_title": proj_title,
-            "pm_n": pm_n,
-            "team" : team,
-            "comment": text}]
-    return exec_d
 
 """ Puts information into docx file in desired format"""
 docx_dict = docx_print(report_dict)
