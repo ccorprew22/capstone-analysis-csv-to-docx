@@ -10,7 +10,7 @@ You will still have to go through the progress report file, this program is only
 
 + To get the CSV file, go on to the Formsite and export a CSV file.
 + To clone the repo to use or make changes, enter `git clone https://github.com/ccorprew22/capstone-analysis-csv-to-docx.git`.
-+ To install dependencies, enter in the terminal `pip install -r requirements`.
++ To install dependencies, enter in the terminal `pip install -r requirements.txt`.
 + To run, enter `python progress_report.py`.
 + The format of the column names may change, so you will need to adjust the code starting at `line 73` (for loop to change column titles)
 + Some names will need to be manually added after making the doc. Most of the time the PM will put the name in the team member comment section. Also you have to remove any extra empty spaces because I checked for five team members since there was a large amount of empty columns/unused columns.
