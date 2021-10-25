@@ -6,7 +6,9 @@ This program takes the PM progress report in a CSV format and turns it into a do
 This program currently works if it matches column headers and the Formsite template provided. However, the professor may make changes.
 
 ## Note!!!
-You will still have to go through the progress report file, this program is only to eliminate the annoying amount of typing, formatting, and busy work.
++ You will still have to go through the progress report file, this program is only to eliminate the annoying amount of typing, formatting, and busy work.
++ On the Formsite, click on the "Show/Hide Columns" button and make sure all columns are on!
+
 
 + To get the CSV file, go on to the Formsite and export a CSV file.
 + To clone the repo to use or make changes, enter `git clone https://github.com/ccorprew22/capstone-analysis-csv-to-docx.git`.
