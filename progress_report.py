@@ -8,7 +8,10 @@ the PM will put the name in the team member comment section.
 
 Also some scores will also need to be manually add due to "?" being found
 occasionally where numbers are supposed to be.
+
+Github Link: https://github.com/ccorprew22/capstone-analysis-csv-to-docx
 """
+import os
 import pandas as pd
 import numpy as np
 from docx import Document
@@ -55,10 +58,13 @@ def docx_print(d):
 
 document = Document()
 
-reports = pd.read_csv("ProgressreportformCapstoneProg(4).csv") #Change to valid file name
+#Change to valid file name
+reports = pd.read_csv("ProgressreportformCapstoneProg(4).csv")
 report_dict = {}
 num = int(input("Enter progress report num: "))
 reports = reports.loc[reports['Progress Report #'] == num]
+if not os.path.exists('progress_report_output'):
+    os.makedirs('progress_report_output')
 reports.to_csv("progress_report_output/progress_report_#{}.csv".format(str(num)),index=False)
 print(reports["PM Name"])
 
