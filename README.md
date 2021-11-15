@@ -5,6 +5,9 @@ This program takes the PM progress report in a CSV format and turns it into a do
 
 This program currently works if it matches column headers and the Formsite template provided. However, the professor may make changes.
 
+##IMPORTANT
++ If this repo is modified ever, make sure that the reports do not get pushed here. I put the output folder in the gitignore but for future use make sure that doesn't happen if any changes are made.
+
 ## Note!!!
 + You will still have to go through the progress report file, this program is only to eliminate the annoying amount of typing, formatting, and busy work.
 + On the Formsite, click on the "Show/Hide Columns" button and make sure all columns are on!

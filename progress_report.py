@@ -3,13 +3,6 @@ Takes the desired columns from formsite csv file,
 and puts pre-determined info into docx file where the students are separated by teams
 with bullet lists of the PM, members, added up scores, and comments.
 
-Some names will need to be manually added after making the doc. Most of the time
-the PM will put the name in the team member comment section.
-
-Also some scores will also need to be manually add due to "?" being found
-occasionally where numbers are supposed to be.
-
-Github Link: https://github.com/ccorprew22/capstone-analysis-csv-to-docx
 """
 import os
 import pandas as pd
@@ -59,13 +52,13 @@ def docx_print(d):
 document = Document()
 
 #Change to valid file name
-reports = pd.read_csv("ProgressreportformCapstoneProg(4).csv")
+reports = pd.read_csv("ProgressreportformCapstoneProg(5).csv")
 report_dict = {}
 num = int(input("Enter progress report num: "))
 reports = reports.loc[reports['Progress Report #'] == num]
-if not os.path.exists('progress_report_output'):
-    os.makedirs('progress_report_output')
-reports.to_csv("progress_report_output/progress_report_#{}.csv".format(str(num)),index=False)
+if not os.path.exists('progress_report_output{}'.format(str(num))):
+    os.makedirs('progress_report_outputs/progress_report_output{}'.format(str(num)))
+reports.to_csv("progress_report_outputs/progress_report_output{}/progress_report_#{}.csv".format(str(num),str(num)),index=False)
 print(reports["PM Name"])
 
 """ Dictionary format
@@ -131,7 +124,7 @@ for col in tm_reports.columns:
     v = col[:index]
     tm_reports.rename(columns={col: v}, inplace=True)
 
-tm_reports.to_csv("progress_report_output/tm_reports.csv",index=False)
+tm_reports.to_csv("progress_report_outputs/progress_report_output{}/tm_reports.csv".format(str(num)),index=False)
 
 """ Makes hashmaps of each row, then populates the report data hashmap.
     May have to modify if Formsite format changes.
@@ -265,4 +258,4 @@ for name in exec_list:
         comments.paragraph_format.space_after = Pt(3)
         #space = document.add_paragraph("\n")
 
-document.save("progress_report_output/progress_report_#{}.docx".format(str(num)))
+document.save("progress_report_outputs/progress_report_output{}/progress_report_#{}.docx".format(str(num), str(num)))
